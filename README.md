@@ -1,4 +1,4 @@
-# 🚀 NetRon Subscription Page Template for 3x-ui
+# 🚀 Subscription Page Template for 3x-ui
 
 [🇮🇷 فارسی](README_FA.md)
 
@@ -29,8 +29,6 @@ A modern, responsive, and customizable subscription page template for **3x-ui** 
 
 ---
 ## 📸 Screenshots
-
-Take a look at the template interface before installation.
 
 ### Main Dashboard
 
