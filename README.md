@@ -69,9 +69,9 @@ Copy this path.
 
 1. Open the 3x-ui panel.
 2. Go to **Settings**.
-3. Open the **Subscription** tab.
+3. Open the **Subscription** .
 4. Click **Profile**.
-5. Enter the absolute folder path in **Subscription Page Template**.
+5. Enter the absolute folder path in **Sub Theme Directory**.
 
 Example:
 
