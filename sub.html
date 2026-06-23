@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>داشبورد کاربری</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        /* ============================================================
+           NETRON VPN · subscription page
+           ============================================================ */
+        :root {
+            --blue: #2f6bff;
+            --violet: #7c5cff;
+            --cyan: #22d3ee;
+            --grad: linear-gradient(135deg, #2f6bff 0%, #7c5cff 52%, #22d3ee 100%);
+
+            --bg-0: #06060f;
+            --bg-1: #0a0a1c;
+            --surface: rgba(255, 255, 255, 0.038);
+            --surface-2: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(124, 92, 255, 0.35);
+
+            --text: #e9e9f2;
+            --muted: #8a8aa6;
+            --faint: #5d5d77;
+
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --red: #ef4444;
+
+            --r-lg: 22px;
+            --r-md: 16px;
+            --r-sm: 11px;
+            --shadow: 0 18px 50px -22px rgba(47, 107, 255, 0.55);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Vazirmatn', system-ui, sans-serif;
+            min-height: 100vh;
+            background: var(--bg-0);
+            color: var(--text);
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+            transition: color 0.3s;
+        }
+
+        .ltr {
+            direction: ltr;
+            unicode-bidi: plaintext;
+        }
+
+        .mono {
+            font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+            direction: ltr;
+            unicode-bidi: plaintext;
+        }
+
+        /* ===== Canvas Background ===== */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ===== layout ===== */
+        .wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 22px 16px 40px;
+        }
+
+        @media (min-width: 560px) {
+            .wrap {
+                padding: 30px 22px 56px;
+            }
+        }
+
+        .glass {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: background 0.25s, border-color 0.25s, transform 0.25s;
+        }
+
+        .glass:hover {
+            background: var(--surface-2);
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
+        }
+
+        /* ===== header ===== */
+        .head {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 18px;
+        }
+
+        .head .id {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .head .brand {
+            font-size: 1.32rem;
+            font-weight: 800;
+            letter-spacing: .2px;
+            line-height: 1.2;
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2px;
+        }
+
+        .head .acct {
+            display: flex;
+            align-items: center;
+            font-size: .82rem;
+            color: var(--muted);
+        }
+
+        .head .acct .who {
+            color: var(--text);
+            font-weight: 600;
+            min-width: 0;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            direction: ltr;
+            unicode-bidi: plaintext;
+            text-align: right;
+        }
+
+        .tools {
+            display: flex;
+            gap: 7px;
+            flex-shrink: 0;
+        }
+
+        .tbtn {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: .78rem;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .tbtn:hover {
+            background: var(--surface-2);
+            border-color: var(--border-strong);
+            transform: translateY(-1px);
+        }
+
+        .tbtn svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        /* ===== notice ===== */
+        .notice {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            padding: 12px 15px;
+            margin-bottom: 18px;
+            background: rgba(245, 158, 11, .07);
+            border: 1px solid rgba(245, 158, 11, .18);
+            border-radius: var(--r-md);
+            transition: background 0.25s;
+        }
+
+        .notice .nico {
+            color: var(--amber);
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .notice .ntxt {
+            flex: 1;
+            font-size: .82rem;
+            color: #d9d4c4;
+        }
+
+        .notice .ntxt b {
+            color: var(--amber);
+            font-weight: 700;
+        }
+
+        .notice .nclose {
+            background: none;
+            border: none;
+            color: var(--faint);
+            cursor: pointer;
+            font-size: 1.1rem;
+            line-height: 1;
+            padding: 2px;
+            transition: 0.2s;
+        }
+
+        .notice .nclose:hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.06);
+            border-radius: 4px;
+        }
+
+        /* ===== hero (donut + status) ===== */
+        .hero {
+            padding: 22px 20px;
+            margin-bottom: 16px;
+            display: grid;
+            gap: 22px;
+            grid-template-columns: 1fr;
+            align-items: center;
+            transition: background 0.25s, border-color 0.25s, transform 0.25s;
+        }
+
+        .hero.glass:hover {
+            background: rgba(255,255,255,0.055);
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
+        }
+
+        @media (min-width: 520px) {
+            .hero {
+                grid-template-columns: auto 1fr;
+                gap: 32px;
+                padding: 28px 26px;
+            }
+        }
+
+        /* ===== donut ===== */
+        .donut {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto;
+        }
+
+        .donut svg {
+            width: 220px;
+            height: 220px;
+            transform: rotate(-90deg);
+        }
+
+        .donut .track {
+            fill: none;
+            stroke: rgba(255, 255, 255, .07);
+            stroke-width: 10;
+        }
+
+        .donut .fill {
+            fill: none;
+            stroke: url(#ringGrad);
+            stroke-width: 10;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1.3s cubic-bezier(.34, .01, .2, 1);
+            filter: drop-shadow(0 0 6px rgba(47, 107, 255, .5));
+        }
+
+        .donut .core {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .donut .core .lead {
+            font-size: .78rem;
+            color: var(--muted);
+            margin-bottom: 2px;
+        }
+
+        .donut .core .amt {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1;
+            color: #fff;
+        }
+
+        .donut .core .of {
+            font-size: .82rem;
+            color: var(--faint);
+            margin-top: 4px;
+        }
+
+        .donut .core .pct {
+            margin-top: 7px;
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--cyan);
+            background: rgba(34, 211, 238, .12);
+            padding: 2px 12px;
+            border-radius: 20px;
+        }
+
+        .status {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .pill {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 30px;
+        }
+
+        .pill .led {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        .pill.on {
+            background: rgba(34, 197, 94, .13);
+            color: var(--green);
+        }
+
+        .pill.off {
+            background: rgba(239, 68, 68, .13);
+            color: var(--red);
+        }
+
+        .expiry-big {
+            display: flex;
+            align-items: baseline;
+            gap: 7px;
+        }
+
+        .expiry-big .n {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .expiry-big .u {
+            font-size: 1rem;
+            color: var(--muted);
+        }
+
+        .meta {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .meta .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 0.95rem;
+            padding: 4px 0;
+        }
+
+        .meta .row .k {
+            color: var(--muted);
+        }
+
+        .meta .row .v {
+            color: var(--text);
+            font-weight: 600;
+            direction: ltr;
+            unicode-bidi: plaintext;
+        }
+
+        /* ===== stat chips ===== */
+        .chips {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 11px;
+            margin-bottom: 16px;
+        }
+
+        @media (min-width: 520px) {
+            .chips {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .chip {
+            padding: 14px 12px;
+            text-align: center;
+            transition: background 0.25s, border-color 0.25s, transform 0.25s;
+            cursor: default;
+        }
+
+        .chip.glass:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
+        }
+
+        .chip .ck {
+            font-size: .72rem;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .chip .cv {
+            font-size: 1.12rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .chip .cv.green {
+            color: var(--green);
+        }
+
+        .chip .cv.blue {
+            color: #6f9bff;
+        }
+
+        .chip .cv.cyan {
+            color: var(--cyan);
+        }
+
+        /* ===== configs ===== */
+        .configs {
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            transition: background 0.25s, border-color 0.25s, transform 0.25s;
+        }
+
+        .configs.glass:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
+        }
+
+        .configs .ctop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .configs .ctop h2 {
+            font-size: 1.02rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .configs .ctop h2 svg {
+            width: 18px;
+            height: 18px;
+            color: var(--violet);
+        }
+
+        .cact {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .sbtn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            cursor: pointer;
+            font-size: .76rem;
+            font-weight: 700;
+            padding: 7px 13px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .sbtn:hover {
+            background: var(--surface-2);
+            border-color: var(--border-strong);
+            transform: scale(1.02);
+        }
+
+        .sbtn svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .sbtn.primary {
+            background: var(--grad);
+            border: none;
+            color: #fff;
+            box-shadow: 0 6px 18px -8px rgba(47, 107, 255, .8);
+        }
+
+        .sbtn.primary:hover {
+            filter: brightness(1.08);
+            transform: scale(1.02);
+        }
+
+        .suburl {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 13px;
+            margin-bottom: 13px;
+            background: rgba(47, 107, 255, .07);
+            border: 1px solid rgba(47, 107, 255, .2);
+            border-radius: 12px;
+            transition: background 0.25s;
+        }
+
+        .suburl:hover {
+            background: rgba(47, 107, 255, .12);
+        }
+
+        .suburl .tag {
+            font-size: .66rem;
+            font-weight: 800;
+            letter-spacing: .5px;
+            color: #8fb0ff;
+            background: rgba(47, 107, 255, .16);
+            padding: 3px 10px;
+            border-radius: 20px;
+            flex-shrink: 0;
+        }
+
+        .suburl .u {
+            flex: 1;
+            min-width: 0;
+            font-size: .76rem;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .icp {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--faint);
+            padding: 5px;
+            border-radius: 7px;
+            display: inline-flex;
+            transition: 0.2s;
+        }
+
+        .icp:hover {
+            color: var(--violet);
+            background: rgba(124, 92, 255, .14);
+        }
+
+        .icp svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .clist {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-left: 3px;
+        }
+
+        .clist::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .clist::-webkit-scrollbar-thumb {
+            background: rgba(124, 92, 255, .45);
+            border-radius: 10px;
+        }
+
+        .citem {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, .025);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: 0.2s;
+        }
+
+        .citem:hover {
+            background: var(--surface-2);
+            border-color: var(--border-strong);
+            transform: translateX(-3px);
+        }
+
+        .citem .proto {
+            font-size: .58rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            padding: 3px 9px;
+            border-radius: 20px;
+            flex-shrink: 0;
+        }
+
+        .proto.vmess {
+            background: rgba(34, 197, 94, .18);
+            color: #4ade80;
+        }
+
+        .proto.vless {
+            background: rgba(124, 92, 255, .2);
+            color: #a78bfa;
+        }
+
+        .proto.trojan {
+            background: rgba(239, 68, 68, .18);
+            color: #f87171;
+        }
+
+        .proto.ss {
+            background: rgba(245, 158, 11, .18);
+            color: #fbbf24;
+        }
+
+        .proto.def {
+            background: rgba(255, 255, 255, .08);
+            color: var(--muted);
+        }
+
+        .citem .cname {
+            flex: 1;
+            min-width: 0;
+            font-size: .86rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .empty {
+            text-align: center;
+            color: var(--faint);
+            padding: 22px;
+            font-size: .85rem;
+        }
+
+        /* ===== footer ===== */
+        .foot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: .74rem;
+            color: var(--faint);
+            padding-top: 8px;
+        }
+
+        .foot .sid {
+            font-family: ui-monospace, monospace;
+            direction: ltr;
+        }
+
+        .foot a {
+            color: var(--violet);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .foot a:hover {
+            text-decoration: underline;
+        }
+
+        .foot .made b {
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ===== toast ===== */
+        .toast {
+            position: fixed;
+            bottom: 26px;
+            left: 50%;
+            transform: translateX(-50%) translateY(18px);
+            background: rgba(20, 20, 40, .92);
+            border: 1px solid var(--border-strong);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 11px 24px;
+            border-radius: 30px;
+            font-size: .86rem;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: .28s;
+            z-index: 99;
+            box-shadow: var(--shadow);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ===== light theme ===== */
+        body.light {
+            --bg-0: #f4f5fb;
+            --bg-1: #eceefb;
+            --surface: rgba(255, 255, 255, .72);
+            --surface-2: rgba(255, 255, 255, .95);
+            --border: rgba(47, 107, 255, .14);
+            --border-strong: rgba(124, 92, 255, .4);
+            --text: #161630;
+            --muted: #5a5a78;
+            --faint: #9292ad;
+            color: var(--text);
+        }
+
+        body.light .bg {
+            background: radial-gradient(1100px 700px at 80% -10%, rgba(47, 107, 255, .12), transparent 60%),
+            radial-gradient(800px 600px at 6% 2%, rgba(124, 92, 255, .1), transparent 55%),
+            linear-gradient(180deg, #eef0fc, #f4f5fb 70%);
+        }
+
+        body.light .orb {
+            opacity: .35;
+        }
+
+        body.light .donut .track {
+            stroke: rgba(47, 107, 255, .12);
+        }
+
+        body.light .donut .core .amt, body.light .expiry-big .n, body.light .chip .cv, body.light .citem .cname {
+            color: var(--text);
+        }
+
+        body.light .notice {
+            background: rgba(245, 158, 11, .1);
+        }
+
+        body.light .notice .ntxt {
+            color: #6b5618;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .orb {
+                animation: none !important;
+            }
+            .donut .fill {
+                transition: none !important;
+            }
+            .glass:hover, .chip:hover, .citem:hover, .sbtn:hover, .tbtn:hover {
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="toast" id="toast"></div>
+
+<!-- gradient def for donut -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#2f6bff"/>
+            <stop offset="55%" stop-color="#7c5cff"/>
+            <stop offset="100%" stop-color="#22d3ee"/>
+        </linearGradient>
+    </defs>
+</svg>
+
+<!-- raw values from 3x-ui, read by JS -->
+<div id="subdata" hidden
+     data-enabled="{{ .enabled }}"
+     data-totalbyte="{{ .totalByte }}"
+     data-downloadbyte="{{ .downloadByte }}"
+     data-uploadbyte="{{ .uploadByte }}"
+     data-expire="{{ .expire }}"
+     data-lastonline="{{ .lastOnline }}"
+     data-datepicker="{{ .datepicker }}"
+     data-emails="{{ range .emails }}{{ . }}|{{ end }}"></div>
+
+<div class="wrap">
+
+    <!-- HEADER -->
+    <header class="head">
+        <div class="id">
+            <div class="brand" id="brandName">داشبورد کاربری</div>
+            <div class="acct"><span class="who" id="acctName">پنل اشتراک</span></div>
+        </div>
+        <div class="tools">
+            <button class="tbtn" id="langBtn" title="زبان">FA</button>
+            <button class="tbtn" id="themeBtn" title="تم">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+            <button class="tbtn" onclick="location.reload()" title="بارگذاری مجدد">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                    <path d="M21 3v5h-5"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- NOTICE -->
+    <div class="notice" id="notice">
+      <span class="nico">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </span>
+        <div class="ntxt"><b data-i18n="notice_title">یادآوری</b> <span data-i18n="notice_body">برای جلوگیری از قطعی، لینک اشتراک خود را همیشه از همین صفحه در برنامه‌ی کانفیگ‌خوان به‌روز نگه دارید.</span></div>
+        <button class="nclose" id="noticeClose" aria-label="بستن">✕</button>
+    </div>
+
+    <!-- HERO: usage donut + status -->
+    <section class="hero glass">
+        <div class="donut">
+            <svg viewBox="0 0 220 220">
+                <circle class="track" cx="110" cy="110" r="90"/>
+                <circle class="fill" id="ring" cx="110" cy="110" r="90" stroke-dasharray="565.48" stroke-dashoffset="565.48"/>
+            </svg>
+            <div class="core">
+                <div class="lead" data-i18n="remaining">باقی‌مانده</div>
+                <div class="amt" id="remainAmt">—</div>
+                <div class="of" id="ofTotal"></div>
+                <div class="pct" id="usedPct"></div>
+            </div>
+        </div>
+
+        <div class="status">
+            <span class="pill" id="statusPill"><span class="led"></span><span id="statusText">—</span></span>
+            <div class="expiry-big">
+                <span class="n" id="daysLeft">—</span>
+                <span class="u" id="daysUnit"></span>
+            </div>
+            <div class="meta">
+                <div class="row"><span class="k" data-i18n="expiry">تاریخ انقضا</span><span class="v" id="expiryDate">—</span></div>
+                <div class="row"><span class="k" data-i18n="last_online">آخرین اتصال</span><span class="v" id="lastOnline">—</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STAT CHIPS -->
+    <div class="chips">
+        <div class="chip glass">
+            <div class="ck" data-i18n="service_vol">حجم سرویس</div>
+            <div class="cv blue" id="cTotal">—</div>
+        </div>
+        <div class="chip glass">
+            <div class="ck" data-i18n="used_vol">مصرف‌شده</div>
+            <div class="cv" id="cUsed">—</div>
+        </div>
+        <div class="chip glass">
+            <div class="ck" data-i18n="remain_vol">باقی‌مانده</div>
+            <div class="cv green" id="cRemain">—</div>
+        </div>
+        <div class="chip glass">
+            <div class="ck" data-i18n="cfg_count">کانفیگ‌ها</div>
+            <div class="cv cyan" id="cCount">—</div>
+        </div>
+    </div>
+
+    <!-- CONFIGS -->
+    <section class="configs glass">
+        <div class="ctop">
+            <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                <span data-i18n="configs">کانفیگ‌ها</span>
+            </h2>
+            <div class="cact">
+                {{ if .subJsonUrl }}<a class="sbtn" href="{{ .subJsonUrl }}" download="netron.json">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <path d="M14 2v6h6"/>
+                </svg>
+                JSON</a>{{ end }}
+                {{ if .subClashUrl }}<a class="sbtn" href="{{ .subClashUrl }}" download="clash.yaml">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <path d="M14 2v6h6"/>
+                </svg>
+                Clash</a>{{ end }}
+                <button class="sbtn primary" id="copyAllBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    <span data-i18n="copy_all">کپی همه</span></button>
+            </div>
+        </div>
+
+        <div class="suburl">
+            <span class="tag">SUB</span>
+            <span class="u mono" id="subUrlText">{{ .subUrl }}</span>
+            <button class="icp" id="copySubBtn" title="کپی لینک اشتراک" data-link="{{ .subUrl }}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="clist" id="clist">
+            {{ range $i, $link := .links }}
+            <div class="citem" data-link="{{ $link }}" data-index="{{ $i }}">
+                <span class="proto def">#</span>
+                <span class="cname">—</span>
+                <button class="icp copyOne" title="کپی کانفیگ">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                </button>
+            </div>
+            {{ else }}
+            <div class="empty" data-i18n="no_configs">هیچ کانفیگی موجود نیست</div>
+            {{ end }}
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="foot">
+        <span class="sid">ID: {{ .sId }}</span>
+        <span>
+            <a id="supportLink" target="_blank" rel="noopener">پشتیبانی</a> ·
+            <span class="made" data-i18n="made">ساخته‌شده توسط NetRon VPN ❤️<b>Netron</b></span>
+        </span>
+    </div>
+</div>
+
+<script>
+    (function () {
+        "use strict";
+
+        /* ---------- i18n ---------- */
+        var i18n = {
+            fa: {
+                brand_name: "داشبورد کاربری",
+                panel_label: "پنل اشتراک",
+                notice_title: "یادآوری",
+                notice_body: "برای جلوگیری از قطعی، لینک اشتراک خود را همیشه از همین صفحه در برنامه‌ی کانفیگ‌خوان به‌روز نگه دارید.",
+                remaining: "باقی‌مانده", expiry: "تاریخ انقضا", last_online: "آخرین اتصال",
+                service_vol: "حجم سرویس", used_vol: "مصرف‌شده", remain_vol: "باقی‌مانده", cfg_count: "کانفیگ‌ها",
+                configs: "کانفیگ‌ها", copy_all: "کپی همه", support: "پشتیبانی", no_configs: "هیچ کانفیگی موجود نیست",
+                made: "ساخته‌شده توسط mahdiz_o ❤️", active: "فعال", inactive: "غیرفعال",
+                unlimited: "نامحدود", never: "بدون انقضا", never_seen: "هنوز متصل نشده", expired: "منقضی شده",
+                day: "روز", days_left: "روز تا انقضا", used_suffix: "مصرف‌شده",
+                copied: "کپی شد!", copied_all: "همه‌ی کانفیگ‌ها کپی شد!", nothing: "کانفیگی برای کپی نیست",
+                cfg: "کانفیگ"
+            },
+            en: {
+                brand_name: "User Dashboard",
+                panel_label: "Subscription panel",
+                notice_title: "Reminder",
+                notice_body: "To avoid disconnection, always keep your subscription link up to date in your client app from this page.",
+                remaining: "Remaining", expiry: "Expiry date", last_online: "Last connection",
+                service_vol: "Plan volume", used_vol: "Used", remain_vol: "Remaining", cfg_count: "Configs",
+                configs: "Configs", copy_all: "Copy all", support: "Support", no_configs: "No configs available",
+                made: "Made by mahdiz_o ❤️", active: "Active", inactive: "Inactive",
+                unlimited: "Unlimited", never: "Never", never_seen: "Not connected yet", expired: "Expired",
+                day: "day", days_left: "days left", used_suffix: "used",
+                copied: "Copied!", copied_all: "All configs copied!", nothing: "Nothing to copy",
+                cfg: "Config"
+            }
+        };
+        var lang = "fa";
+        var T = function (k) {
+            return i18n[lang][k];
+        };
+
+        /* ---------- persian digits ---------- */
+        var FA = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+
+        function digits(str) {
+            str = String(str);
+            if (lang !== "fa") return str;
+            return str.replace(/[0-9]/g, function (d) {
+                return FA[+d];
+            }).replace(/%/g, "٪");
+        }
+
+        /* ---------- byte formatting ---------- */
+        function fmtBytes(b) {
+            b = Number(b) || 0;
+            if (b <= 0) return {v: "0", u: "B"};
+            var units = ["B", "KB", "MB", "GB", "TB", "PB"];
+            var i = Math.floor(Math.log(b) / Math.log(1024));
+            if (i >= units.length) i = units.length - 1;
+            var val = b / Math.pow(1024, i);
+            var s = (i === 0) ? String(Math.round(val)) : val.toFixed(2).replace(/\.?0+$/, "");
+            return {v: s, u: units[i]};
+        }
+
+        function bytesText(b) {
+            var f = fmtBytes(b);
+            return digits(f.v) + " " + f.u;
+        }
+
+        /* ---------- jalali conversion ---------- */
+        function toJalali(gy, gm, gd) {
+            var gdm = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+            var jy;
+            if (gy > 1600) {
+                jy = 979;
+                gy -= 1600;
+            } else {
+                jy = 0;
+                gy -= 621;
+            }
+            var gy2 = (gm > 2) ? (gy + 1) : gy;
+            var days = 365 * gy + Math.floor((gy2 + 3) / 4) - Math.floor((gy2 + 99) / 100) + Math.floor((gy2 + 399) / 400) - 80 + gd + gdm[gm - 1];
+            jy += 33 * Math.floor(days / 12053);
+            days %= 12053;
+            jy += 4 * Math.floor(days / 1461);
+            days %= 1461;
+            if (days > 365) {
+                jy += Math.floor((days - 1) / 365);
+                days = (days - 1) % 365;
+            }
+            var jm = (days < 186) ? 1 + Math.floor(days / 31) : 7 + Math.floor((days - 186) / 30);
+            var jd = 1 + ((days < 186) ? (days % 31) : ((days - 186) % 30));
+            return [jy, jm, jd];
+        }
+
+        function pad(n) {
+            return n < 10 ? "0" + n : "" + n;
+        }
+
+        function fmtDate(ms, datepicker, withTime) {
+            var dt = new Date(ms);
+            var useJalali = (lang === "fa");
+            if (useJalali) {
+                var iran = new Date(dt.getTime() + (dt.getTimezoneOffset() + 210) * 60000);
+                var j = toJalali(iran.getFullYear(), iran.getMonth() + 1, iran.getDate());
+                var s = j[0] + "/" + pad(j[1]) + "/" + pad(j[2]);
+                if (withTime) s += "، " + pad(iran.getHours()) + ":" + pad(iran.getMinutes());
+                return digits(s);
+            }
+            var y = dt.getFullYear(), m = pad(dt.getMonth() + 1), da = pad(dt.getDate());
+            var s2 = y + "/" + m + "/" + da;
+            if (withTime) s2 += " " + pad(dt.getHours()) + ":" + pad(dt.getMinutes());
+            return digits(s2);
+        }
+
+        /* ---------- read raw data ---------- */
+        var el = document.getElementById("subdata");
+        var raw = {
+            enabled: el.dataset.enabled === "true",
+            total: parseInt(el.dataset.totalbyte || "0", 10) || 0,
+            download: parseInt(el.dataset.downloadbyte || "0", 10) || 0,
+            upload: parseInt(el.dataset.uploadbyte || "0", 10) || 0,
+            expire: parseInt(el.dataset.expire || "0", 10) || 0,
+            lastOnline: parseInt(el.dataset.lastonline || "0", 10) || 0,
+            emails: (el.dataset.emails || "").split("|").filter(Boolean)
+        };
+        var used = raw.download + raw.upload;
+        var unlimited = raw.total <= 0;
+        var remaining = unlimited ? 0 : Math.max(raw.total - used, 0);
+        var pctUsed = unlimited ? 0 : Math.min(100, Math.round((used / raw.total) * 100));
+
+        /* ---------- de-duplicate emails ---------- */
+        var uniqEmails = raw.emails.filter(function (v, idx, arr) {
+            return arr.indexOf(v) === idx;
+        });
+
+        /* ---------- config items ---------- */
+        function buildConfigs() {
+            var items = document.querySelectorAll(".citem[data-link]");
+            items.forEach(function (it) {
+                var link = it.getAttribute("data-link") || "";
+                var proto = "def", short = "";
+                if (link.indexOf("vmess://") === 0) {
+                    proto = "vmess";
+                    short = "VMESS";
+                } else if (link.indexOf("vless://") === 0) {
+                    proto = "vless";
+                    short = "VLESS";
+                } else if (link.indexOf("trojan://") === 0) {
+                    proto = "trojan";
+                    short = "TROJAN";
+                } else if (link.indexOf("ss://") === 0) {
+                    proto = "ss";
+                    short = "SS";
+                } else short = "#";
+                var name = "";
+                var h = link.indexOf("#");
+                if (h !== -1) {
+                    try {
+                        name = decodeURIComponent(link.slice(h + 1));
+                    } catch (e) {
+                        name = link.slice(h + 1);
+                    }
+                    name = name.replace(/\/$/, "").trim();
+                }
+                if (!name) name = T("cfg") + " " + digits((parseInt(it.getAttribute("data-index"), 10) + 1));
+                var p = it.querySelector(".proto");
+                p.textContent = short;
+                p.className = "proto " + proto;
+                it.querySelector(".cname").textContent = name;
+            });
+        }
+
+        /* ---------- render ---------- */
+        function render() {
+            document.getElementById("brandName").textContent = T("brand_name");
+            var acct = document.getElementById("acctName");
+            acct.textContent = uniqEmails.length ? uniqEmails[0] : T("panel_label");
+
+            var ring = document.getElementById("ring");
+            var C = 565.48;
+            var frac = unlimited ? 1 : pctUsed / 100;
+            ring.style.strokeDashoffset = C - frac * C;
+            ring.style.stroke = unlimited ? "url(#ringGrad)" : (pctUsed >= 90 ? "var(--red)" : pctUsed >= 70 ? "var(--amber)" : "url(#ringGrad)");
+
+            if (unlimited) {
+                document.getElementById("remainAmt").textContent = T("unlimited");
+                document.getElementById("ofTotal").textContent = "";
+                document.getElementById("usedPct").textContent = bytesText(used) + " " + T("used_suffix");
+            } else {
+                var r = fmtBytes(remaining);
+                document.getElementById("remainAmt").textContent = digits(r.v) + " " + r.u;
+                document.getElementById("ofTotal").textContent = (lang === "fa" ? "از " : "of ") + bytesText(raw.total);
+                document.getElementById("usedPct").textContent = digits(pctUsed + "%") + " " + T("used_suffix");
+            }
+
+            var pill = document.getElementById("statusPill");
+            pill.className = "pill " + (raw.enabled ? "on" : "off");
+            document.getElementById("statusText").textContent = raw.enabled ? T("active") : T("inactive");
+
+            var dLeft = document.getElementById("daysLeft"), dUnit = document.getElementById("daysUnit"), eDate = document.getElementById("expiryDate");
+            if (!raw.expire) {
+                dLeft.textContent = "∞";
+                dUnit.textContent = T("never");
+                eDate.textContent = T("never");
+            } else {
+                var expMs = raw.expire * 1000;
+                var days = Math.ceil((expMs - Date.now()) / 86400000);
+                if (days < 0) {
+                    dLeft.textContent = "";
+                    dUnit.textContent = T("expired");
+                } else {
+                    dLeft.textContent = digits(days);
+                    dUnit.textContent = T("days_left");
+                }
+                eDate.textContent = fmtDate(expMs, null, false);
+            }
+
+            document.getElementById("lastOnline").textContent =
+                raw.lastOnline ? fmtDate(raw.lastOnline, null, true) : T("never_seen");
+
+            document.getElementById("cTotal").textContent = unlimited ? T("unlimited") : bytesText(raw.total);
+            document.getElementById("cUsed").textContent = bytesText(used);
+            document.getElementById("cRemain").textContent = unlimited ? "∞" : bytesText(remaining);
+            document.getElementById("cCount").textContent = digits(document.querySelectorAll(".citem[data-link]").length);
+
+            document.querySelectorAll("[data-i18n]").forEach(function (n) {
+                var k = n.getAttribute("data-i18n");
+                if (i18n[lang][k] != null) n.textContent = i18n[lang][k];
+            });
+
+            buildConfigs();
+        }
+
+        /* ---------- copy helpers ---------- */
+        function toast(msg) {
+            var t = document.getElementById("toast");
+            t.textContent = msg;
+            t.classList.add("show");
+            clearTimeout(t._t);
+            t._t = setTimeout(function () {
+                t.classList.remove("show");
+            }, 1900);
+        }
+
+        function copy(text, okMsg) {
+            if (!text) {
+                toast(T("nothing"));
+                return;
+            }
+            var done = function () {
+                toast(okMsg || T("copied"));
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done).catch(function () {
+                    legacy(text, done);
+                });
+            } else {
+                legacy(text, done);
+            }
+        }
+
+        function legacy(text, done) {
+            var ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand("copy");
+            } catch (e) {}
+            document.body.removeChild(ta);
+            done();
+        }
+
+        /* ===== بارگذاری config.json ===== */
+        async function loadConfig() {
+            try {
+                const response = await fetch('./config.json');
+                const config = await response.json();
+
+                const supportLink = document.getElementById('supportLink');
+
+                if (config.support_id) {
+                    supportLink.href =
+                        `https://t.me/${config.support_id.replace('@', '')}`;
+                    supportLink.textContent =
+                        `پشتیبانی (${config.support_id})`;
+                } else {
+                    supportLink.style.display = 'none';
+                }
+
+            } catch (error) {
+                console.error('Failed to load config.json', error);
+            }
+        }
+
+        /* ---------- events ---------- */
+        document.getElementById("copySubBtn").addEventListener("click", function () {
+            copy(this.getAttribute("data-link"));
+        });
+        document.getElementById("clist").addEventListener("click", function (e) {
+            var btn = e.target.closest(".copyOne");
+            if (!btn) return;
+            var item = btn.closest(".citem");
+            copy(item && item.getAttribute("data-link"));
+        });
+        document.getElementById("copyAllBtn").addEventListener("click", function () {
+            var links = [];
+            document.querySelectorAll(".citem[data-link]").forEach(function (it) {
+                var l = it.getAttribute("data-link");
+                if (l) links.push(l);
+            });
+            if (!links.length) {
+                toast(T("nothing"));
+                return;
+            }
+            copy(links.join("\n"), T("copied_all"));
+        });
+        document.getElementById("noticeClose").addEventListener("click", function () {
+            var n = document.getElementById("notice");
+            n.style.transition = "opacity .3s, transform .3s";
+            n.style.opacity = "0";
+            n.style.transform = "translateY(-8px)";
+            setTimeout(function () {
+                n.style.display = "none";
+            }, 320);
+        });
+        document.getElementById("langBtn").addEventListener("click", function () {
+            lang = (lang === "fa") ? "en" : "fa";
+            document.documentElement.lang = lang;
+            document.documentElement.dir = (lang === "fa") ? "rtl" : "ltr";
+            this.textContent = (lang === "fa") ? "FA" : "EN";
+            render();
+        });
+        document.getElementById("themeBtn").addEventListener("click", function () {
+            document.body.classList.toggle("light");
+        });
+
+        // بارگذاری config و سپس رندر
+        loadConfig().then(() => {
+            render();
+        });
+    })();
+</script>
+
+<!-- Canvas Background Animation -->
+<script>
+    (function initBackground() {
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let W, H, time = 0, mouseX = -9999, mouseY = -9999;
+
+        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+
+        function drawBg() {
+            const isLight = document.body.classList.contains('light');
+            const g = ctx.createRadialGradient(W*.3, H*.2, 0, W*.5, H*.4, Math.max(W,H)*.8);
+            if (isLight) {
+                g.addColorStop(0,'#f5f3ff'); g.addColorStop(.4,'#ede9fe'); g.addColorStop(.8,'#f0f4ff'); g.addColorStop(1,'#f8f7ff');
+            } else {
+                g.addColorStop(0,'#1a1040'); g.addColorStop(.3,'#141430'); g.addColorStop(.6,'#0e0e24'); g.addColorStop(1,'#080818');
+            }
+            ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+            const orbs = isLight ? [
+                {x:W*.15,y:H*.1, r:Math.min(W,H)*.35,color:'rgba(139,92,246,0.05)'},
+                {x:W*.85,y:H*.8, r:Math.min(W,H)*.28,color:'rgba(99,102,241,0.04)'},
+                {x:W*.5, y:H*.5, r:Math.min(W,H)*.2, color:'rgba(168,85,247,0.03)'},
+            ] : [
+                {x:W*.08,y:H*.12,r:Math.min(W,H)*.3, color:'rgba(139,92,246,0.12)'},
+                {x:W*.92,y:H*.85,r:Math.min(W,H)*.25,color:'rgba(99,102,241,0.10)'},
+                {x:W*.5, y:H*.95,r:Math.min(W,H)*.18,color:'rgba(168,85,247,0.08)'},
+                {x:W*.7, y:H*.08,r:Math.min(W,H)*.12,color:'rgba(79,70,229,0.06)'},
+            ];
+            for (let o of orbs) {
+                const og = ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+                og.addColorStop(0,o.color); og.addColorStop(1,'rgba(0,0,0,0)');
+                ctx.fillStyle=og; ctx.beginPath(); ctx.arc(o.x,o.y,o.r,0,Math.PI*2); ctx.fill();
+            }
+
+            ctx.save();
+            const pc = isLight?40:60, baseOp = isLight?.05:.08, col = isLight?'139,92,246':'255,255,255';
+            for (let i=0;i<pc;i++) {
+                const s=i*137.508;
+                const x=(Math.sin(s+time*.0003+i)*.5+.5)*W, y=(Math.cos(s*1.3+time*.0004+i*.7)*.5+.5)*H;
+                const sz=1+Math.sin(s+time*.001)*.5+.5, op=baseOp*(.5+Math.sin(s+time*.0005)*.3+.3);
+                ctx.beginPath(); ctx.arc(x,y,sz,0,Math.PI*2);
+                ctx.fillStyle=`rgba(${col},${op})`; ctx.fill();
+            }
+            ctx.restore();
+
+            if (mouseX>0&&mouseY>0) {
+                const glow=ctx.createRadialGradient(mouseX,mouseY,0,mouseX,mouseY,200);
+                const c=isLight?'rgba(139,92,246,':'rgba(255,255,255,';
+                glow.addColorStop(0,c+'0.04)'); glow.addColorStop(1,c+'0)');
+                ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(mouseX,mouseY,200,0,Math.PI*2); ctx.fill();
+            }
+        }
+
+        function animate() { time++; drawBg(); requestAnimationFrame(animate); }
+        window.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;});
+        window.addEventListener('mouseleave',()=>{mouseX=-9999;mouseY=-9999;});
+        window.addEventListener('resize',resize);
+        resize(); animate();
+    })();
+</script>
+</body>
+</html>
