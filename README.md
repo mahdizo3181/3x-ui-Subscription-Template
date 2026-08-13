@@ -29,16 +29,6 @@ A modern, responsive, and customizable subscription page template for **3x-ui** 
 ```
 
 ---
-## 📸 Screenshots
-
-### Main Dashboard
-
-Displays subscription information, traffic usage, expiration date, and service status in a modern and responsive layout.
-
-
-<p align="center">
-  <img src="assets/Screenshot_20260623_231231.png" alt="Main Dashboard" width="900">
-</p>
 
 ## 🛠️ Installation
 
