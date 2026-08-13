@@ -3,39 +3,42 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>داشبورد کاربری</title>
+    <title>NetRon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <style>
         /* ============================================================
-           NETRON VPN · subscription page
+           NETRON · subscription page — dark premium / orange accent theme
            ============================================================ */
         :root {
-            --blue: #2f6bff;
-            --violet: #7c5cff;
-            --cyan: #22d3ee;
-            --grad: linear-gradient(135deg, #2f6bff 0%, #7c5cff 52%, #22d3ee 100%);
+            --orange: #FF6B00;
+            --orange-2: #FF8C00;
+            --orange-3: #FFB347;
+            --grad: linear-gradient(135deg, #FF6B00 0%, #FF8C00 55%, #FFA733 100%);
 
-            --bg-0: #06060f;
-            --bg-1: #0a0a1c;
-            --surface: rgba(255, 255, 255, 0.038);
-            --surface-2: rgba(255, 255, 255, 0.06);
+            --bg-0: #0F0F11;
+            --bg-1: #18181B;
+            --surface: rgba(255, 255, 255, 0.035);
+            --surface-2: rgba(255, 255, 255, 0.065);
             --border: rgba(255, 255, 255, 0.08);
-            --border-strong: rgba(124, 92, 255, 0.35);
+            --border-strong: rgba(255, 140, 0, 0.4);
 
-            --text: #e9e9f2;
-            --muted: #8a8aa6;
-            --faint: #5d5d77;
+            --text: #F5F5F7;
+            --muted: #A1A1AA;
+            --faint: #6b6b74;
 
             --green: #22c55e;
-            --amber: #f59e0b;
+            --amber: #FFB020;
             --red: #ef4444;
 
             --r-lg: 22px;
             --r-md: 16px;
             --r-sm: 11px;
-            --shadow: 0 18px 50px -22px rgba(47, 107, 255, 0.55);
+            --shadow: 0 18px 50px -22px rgba(255, 107, 0, 0.45);
+
+            --font-fa: 'Vazirmatn', 'Inter', system-ui, sans-serif;
+            --font-en: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
         }
 
         * {
@@ -49,7 +52,7 @@
         }
 
         body {
-            font-family: 'Vazirmatn', system-ui, sans-serif;
+            font-family: var(--font-fa);
             min-height: 100vh;
             background: var(--bg-0);
             color: var(--text);
@@ -58,6 +61,16 @@
             line-height: 1.55;
             -webkit-font-smoothing: antialiased;
             transition: color 0.3s;
+        }
+
+        body.en-mode {
+            font-family: var(--font-en);
+        }
+
+        /* Persian content (config names, user-facing labels) always renders in Vazirmatn
+           regardless of active UI language, since it may contain Persian text set by the admin. */
+        .fa-text, .cname, .foot .made {
+            font-family: var(--font-fa) !important;
         }
 
         .ltr {
@@ -123,10 +136,53 @@
         .head .id {
             flex: 1;
             min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .logo-mark {
+            position: relative;
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            background: var(--grad);
+            box-shadow: 0 8px 20px -8px rgba(255, 107, 0, .7);
+        }
+
+        .logo-mark svg {
+            width: 23px;
+            height: 23px;
+            color: #fff;
+        }
+
+        .logo-mark .live-dot {
+            position: absolute;
+            right: -2px;
+            bottom: -2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--orange);
+            border: 2px solid var(--bg-0);
+            animation: livePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { box-shadow: 0 0 6px 1px rgba(255, 107, 0, .6); }
+            50% { box-shadow: 0 0 12px 4px rgba(255, 140, 0, .9); }
+        }
+
+        .head .brandwrap {
+            min-width: 0;
         }
 
         .head .brand {
-            font-size: 1.32rem;
+            font-family: var(--font-en);
+            font-size: 1.28rem;
             font-weight: 800;
             letter-spacing: .2px;
             line-height: 1.2;
@@ -135,6 +191,9 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 2px;
+            direction: ltr;
+            unicode-bidi: plaintext;
+            text-align: right;
         }
 
         .head .acct {
@@ -196,8 +255,8 @@
             gap: 11px;
             padding: 12px 15px;
             margin-bottom: 18px;
-            background: rgba(245, 158, 11, .07);
-            border: 1px solid rgba(245, 158, 11, .18);
+            background: rgba(255, 176, 32, .07);
+            border: 1px solid rgba(255, 176, 32, .18);
             border-radius: var(--r-md);
             transition: background 0.25s;
         }
@@ -287,7 +346,7 @@
             stroke-width: 10;
             stroke-linecap: round;
             transition: stroke-dashoffset 1.3s cubic-bezier(.34, .01, .2, 1);
-            filter: drop-shadow(0 0 6px rgba(47, 107, 255, .5));
+            filter: drop-shadow(0 0 6px rgba(255, 107, 0, .55));
         }
 
         .donut .core {
@@ -323,8 +382,8 @@
             margin-top: 7px;
             font-size: .82rem;
             font-weight: 700;
-            color: var(--cyan);
-            background: rgba(34, 211, 238, .12);
+            color: var(--orange-2);
+            background: rgba(255, 140, 0, .14);
             padding: 2px 12px;
             border-radius: 20px;
         }
@@ -449,12 +508,12 @@
             color: var(--green);
         }
 
-        .chip .cv.blue {
-            color: #6f9bff;
+        .chip .cv.orange {
+            color: var(--orange-2);
         }
 
-        .chip .cv.cyan {
-            color: var(--cyan);
+        .chip .cv.amber {
+            color: var(--amber);
         }
 
         /* ===== configs ===== */
@@ -490,7 +549,7 @@
         .configs .ctop h2 svg {
             width: 18px;
             height: 18px;
-            color: var(--violet);
+            color: var(--orange);
         }
 
         .cact {
@@ -531,7 +590,7 @@
             background: var(--grad);
             border: none;
             color: #fff;
-            box-shadow: 0 6px 18px -8px rgba(47, 107, 255, .8);
+            box-shadow: 0 6px 18px -8px rgba(255, 107, 0, .7);
         }
 
         .sbtn.primary:hover {
@@ -545,22 +604,22 @@
             gap: 9px;
             padding: 11px 13px;
             margin-bottom: 13px;
-            background: rgba(47, 107, 255, .07);
-            border: 1px solid rgba(47, 107, 255, .2);
+            background: rgba(255, 107, 0, .07);
+            border: 1px solid rgba(255, 107, 0, .22);
             border-radius: 12px;
             transition: background 0.25s;
         }
 
         .suburl:hover {
-            background: rgba(47, 107, 255, .12);
+            background: rgba(255, 107, 0, .12);
         }
 
         .suburl .tag {
             font-size: .66rem;
             font-weight: 800;
             letter-spacing: .5px;
-            color: #8fb0ff;
-            background: rgba(47, 107, 255, .16);
+            color: #ffb066;
+            background: rgba(255, 140, 0, .18);
             padding: 3px 10px;
             border-radius: 20px;
             flex-shrink: 0;
@@ -578,18 +637,25 @@
 
         .icp {
             background: none;
-            border: none;
+            border: 1px solid transparent;
             cursor: pointer;
             color: var(--faint);
             padding: 5px;
             border-radius: 7px;
             display: inline-flex;
-            transition: 0.2s;
+            transition: background .2s, color .2s, border-color .2s, transform .15s, box-shadow .2s;
         }
 
         .icp:hover {
-            color: var(--violet);
-            background: rgba(124, 92, 255, .14);
+            color: #fff;
+            background: var(--grad);
+            border-color: transparent;
+            transform: translateY(-1px) scale(1.06);
+            box-shadow: 0 6px 16px -6px rgba(255, 107, 0, .7);
+        }
+
+        .icp:active {
+            transform: translateY(0) scale(.97);
         }
 
         .icp svg {
@@ -611,7 +677,7 @@
         }
 
         .clist::-webkit-scrollbar-thumb {
-            background: rgba(124, 92, 255, .45);
+            background: rgba(255, 107, 0, .45);
             border-radius: 10px;
         }
 
@@ -648,8 +714,8 @@
         }
 
         .proto.vless {
-            background: rgba(124, 92, 255, .2);
-            color: #a78bfa;
+            background: rgba(255, 140, 0, .2);
+            color: #ffb066;
         }
 
         .proto.trojan {
@@ -658,8 +724,8 @@
         }
 
         .proto.ss {
-            background: rgba(245, 158, 11, .18);
-            color: #fbbf24;
+            background: rgba(255, 255, 255, .1);
+            color: #d4d4d8;
         }
 
         .proto.def {
@@ -684,6 +750,282 @@
             font-size: .85rem;
         }
 
+        /* ===== recommended apps ===== */
+        .apps {
+            padding: 18px 16px 20px;
+            margin-bottom: 16px;
+            transition: background 0.25s, border-color 0.25s, transform 0.25s;
+        }
+
+        .apps.glass:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
+        }
+
+        .apps-top {
+            margin-bottom: 14px;
+        }
+
+        .apps-top h2 {
+            font-size: 1.02rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .apps-top h2 svg {
+            width: 18px;
+            height: 18px;
+            color: var(--orange);
+        }
+
+        .apps-top p {
+            font-size: .78rem;
+            color: var(--muted);
+        }
+
+        /* ===== OS selector (dropdown) ===== */
+        .os-select {
+            position: relative;
+            width: 100%;
+            max-width: 260px;
+            margin-bottom: 16px;
+        }
+
+        .os-select-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: inherit;
+            font-size: .84rem;
+            font-weight: 700;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            transition: background .2s, border-color .2s;
+        }
+
+        .os-select-btn:hover {
+            background: var(--surface-2);
+            border-color: var(--border-strong);
+        }
+
+        .os-select.open .os-select-btn {
+            border-color: var(--border-strong);
+            background: var(--surface-2);
+        }
+
+        .os-select-icon {
+            display: grid;
+            place-items: center;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            color: var(--orange-2);
+        }
+
+        .os-select-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .os-select-label {
+            flex: 1;
+            direction: ltr;
+            unicode-bidi: plaintext;
+            text-align: start;
+        }
+
+        .os-select-caret {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+            color: var(--muted);
+            transition: transform .25s, color .2s;
+        }
+
+        .os-select.open .os-select-caret {
+            transform: rotate(180deg);
+            color: var(--orange-2);
+        }
+
+        .os-select-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 6px;
+            background: var(--bg-1);
+            border: 1px solid var(--border-strong);
+            border-radius: 14px;
+            box-shadow: 0 24px 50px -18px rgba(0, 0, 0, .6), 0 0 30px -12px rgba(255, 107, 0, .25);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-6px) scale(.98);
+            transition: opacity .2s, transform .2s;
+        }
+
+        .os-select.open .os-select-menu {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+        }
+
+        .os-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            font-family: inherit;
+            font-size: .82rem;
+            font-weight: 600;
+            padding: 9px 10px;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: background .15s, color .15s;
+        }
+
+        .os-option svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .os-option span {
+            direction: ltr;
+            unicode-bidi: plaintext;
+        }
+
+        .os-option:hover {
+            background: var(--surface-2);
+            color: var(--text);
+        }
+
+        .os-option.active {
+            background: rgba(255, 107, 0, .14);
+            color: var(--orange-2);
+        }
+
+        .os-option .os-check {
+            margin-inline-start: auto;
+            width: 14px;
+            height: 14px;
+            opacity: 0;
+            flex-shrink: 0;
+        }
+
+        .os-option.active .os-check {
+            opacity: 1;
+        }
+
+        .app-grid {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 10px;
+        }
+
+        .app-grid.active {
+            display: grid;
+        }
+
+        .app-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, .025);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            transition: .2s;
+        }
+
+        .app-card:hover {
+            background: var(--surface-2);
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
+        }
+
+        .app-icon {
+            flex-shrink: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: .84rem;
+            font-family: var(--font-en);
+            letter-spacing: -.3px;
+        }
+
+        .app-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .app-info .an {
+            font-family: var(--font-en);
+            font-size: .88rem;
+            font-weight: 700;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .app-info .ad {
+            font-size: .72rem;
+            color: var(--faint);
+            margin-top: 1px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .app-get {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: inherit;
+            font-size: .72rem;
+            font-weight: 700;
+            padding: 7px 12px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .app-get:hover {
+            background: var(--grad);
+            border-color: transparent;
+            color: #fff;
+            transform: scale(1.04);
+        }
+
+        .app-get svg {
+            width: 12px;
+            height: 12px;
+        }
+
         /* ===== footer ===== */
         .foot {
             display: flex;
@@ -702,7 +1044,7 @@
         }
 
         .foot a {
-            color: var(--violet);
+            color: var(--orange-2);
             text-decoration: none;
             font-weight: 600;
         }
@@ -723,45 +1065,188 @@
             position: fixed;
             bottom: 26px;
             left: 50%;
-            transform: translateX(-50%) translateY(18px);
-            background: rgba(20, 20, 40, .92);
-            border: 1px solid var(--border-strong);
-            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            transform: translateX(-50%) translateY(22px) scale(.97);
+            background: rgba(15, 15, 17, .96);
+            border: 1px solid rgba(255, 255, 255, .07);
+            border-left: 3px solid var(--orange);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             color: #fff;
-            padding: 11px 24px;
-            border-radius: 30px;
+            padding: 12px 20px 12px 16px;
+            border-radius: 10px;
             font-size: .86rem;
             font-weight: 600;
             opacity: 0;
             pointer-events: none;
-            transition: .28s;
-            z-index: 99;
-            box-shadow: var(--shadow);
+            transition: opacity .3s, transform .3s;
+            z-index: 210;
+            box-shadow: 0 20px 45px -18px rgba(255, 107, 0, .4), 0 12px 30px -10px rgba(0, 0, 0, .55);
+        }
+
+        .toast .ticon {
+            display: grid;
+            place-items: center;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: rgba(255, 107, 0, .18);
+            color: var(--orange-2);
+        }
+
+        .toast .ticon svg {
+            width: 12px;
+            height: 12px;
         }
 
         .toast.show {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+
+        /* ===== QR modal ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(4, 4, 12, .68);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 320px;
+            background: var(--bg-1);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--r-lg);
+            padding: 22px;
+            box-shadow: 0 30px 70px -20px rgba(0, 0, 0, .6), 0 0 44px -14px rgba(255, 107, 0, .3);
+            transform: translateY(14px) scale(.96);
+            opacity: 0;
+            transition: transform .3s cubic-bezier(.2,.9,.3,1.2), opacity .25s;
+        }
+
+        .modal-overlay.show .modal-card {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .modal-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .modal-top h3 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: .2s;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+            border-color: var(--border-strong);
+            background: var(--surface-2);
+        }
+
+        .modal-close svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .qr-frame {
+            background: #fff;
+            border-radius: 14px;
+            padding: 16px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 14px;
+        }
+
+        .qr-frame canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+        }
+
+        .modal-card .qr-hint {
+            text-align: center;
+            font-size: .78rem;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .modal-card .qr-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 11px;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .modal-card .qr-link span {
+            flex: 1;
+            min-width: 0;
+            font-size: .72rem;
+            color: var(--faint);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            direction: ltr;
         }
 
         /* ===== light theme ===== */
         body.light {
-            --bg-0: #f4f5fb;
-            --bg-1: #eceefb;
+            --bg-0: #fbf7f2;
+            --bg-1: #f6ede2;
             --surface: rgba(255, 255, 255, .72);
             --surface-2: rgba(255, 255, 255, .95);
-            --border: rgba(47, 107, 255, .14);
-            --border-strong: rgba(124, 92, 255, .4);
-            --text: #161630;
-            --muted: #5a5a78;
-            --faint: #9292ad;
+            --border: rgba(255, 107, 0, .14);
+            --border-strong: rgba(255, 107, 0, .4);
+            --text: #201a14;
+            --muted: #6b5f52;
+            --faint: #a89a89;
             color: var(--text);
         }
 
         body.light .bg {
-            background: radial-gradient(1100px 700px at 80% -10%, rgba(47, 107, 255, .12), transparent 60%),
-            radial-gradient(800px 600px at 6% 2%, rgba(124, 92, 255, .1), transparent 55%),
-            linear-gradient(180deg, #eef0fc, #f4f5fb 70%);
+            background: radial-gradient(1100px 700px at 80% -10%, rgba(255, 107, 0, .1), transparent 60%),
+            radial-gradient(800px 600px at 6% 2%, rgba(255, 140, 0, .08), transparent 55%),
+            linear-gradient(180deg, #fdf2e6, #fbf7f2 70%);
         }
 
         body.light .orb {
@@ -769,7 +1254,7 @@
         }
 
         body.light .donut .track {
-            stroke: rgba(47, 107, 255, .12);
+            stroke: rgba(255, 107, 0, .12);
         }
 
         body.light .donut .core .amt, body.light .expiry-big .n, body.light .chip .cv, body.light .citem .cname {
@@ -777,7 +1262,7 @@
         }
 
         body.light .notice {
-            background: rgba(245, 158, 11, .1);
+            background: rgba(255, 176, 32, .12);
         }
 
         body.light .notice .ntxt {
@@ -799,15 +1284,43 @@
 </head>
 <body>
 <canvas id="bgCanvas"></canvas>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast">
+    <span class="ticon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </span>
+    <span id="toastText"></span>
+</div>
+
+<!-- QR CODE MODAL -->
+<div class="modal-overlay" id="qrOverlay">
+    <div class="modal-card">
+        <div class="modal-top">
+            <h3 class="fa-text" data-i18n="qr_title">اسکن برای وارد کردن</h3>
+            <button class="modal-close" id="qrClose" aria-label="close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="qr-frame"><canvas id="qrCanvas" width="220" height="220"></canvas></div>
+        <p class="qr-hint fa-text" id="qrHint" data-i18n="qr_hint">برنامه‌ی کانفیگ‌خوان را باز کن و این کد را اسکن کن</p>
+        <div class="qr-link">
+            <span id="qrLinkText" class="mono"></span>
+            <button class="icp" id="qrCopyBtn" title="copy">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
 
 <!-- gradient def for donut -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
         <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#2f6bff"/>
-            <stop offset="55%" stop-color="#7c5cff"/>
-            <stop offset="100%" stop-color="#22d3ee"/>
+            <stop offset="0%" stop-color="#FF6B00"/>
+            <stop offset="55%" stop-color="#FF8C00"/>
+            <stop offset="100%" stop-color="#FFC069"/>
         </linearGradient>
     </defs>
 </svg>
@@ -828,8 +1341,17 @@
     <!-- HEADER -->
     <header class="head">
         <div class="id">
-            <div class="brand" id="brandName">داشبورد کاربری</div>
-            <div class="acct"><span class="who" id="acctName">پنل اشتراک</span></div>
+            <div class="logo-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+                <span class="live-dot" title="Online" aria-hidden="true"></span>
+            </div>
+            <div class="brandwrap">
+                <div class="brand" id="brandName">NetRon</div>
+                <div class="acct"><span class="who" id="acctName">پنل اشتراک</span></div>
+            </div>
         </div>
         <div class="tools">
             <button class="tbtn" id="langBtn" title="زبان">FA</button>
@@ -888,7 +1410,7 @@
     <div class="chips">
         <div class="chip glass">
             <div class="ck" data-i18n="service_vol">حجم سرویس</div>
-            <div class="cv blue" id="cTotal">—</div>
+            <div class="cv orange" id="cTotal">—</div>
         </div>
         <div class="chip glass">
             <div class="ck" data-i18n="used_vol">مصرف‌شده</div>
@@ -900,7 +1422,7 @@
         </div>
         <div class="chip glass">
             <div class="ck" data-i18n="cfg_count">کانفیگ‌ها</div>
-            <div class="cv cyan" id="cCount">—</div>
+            <div class="cv amber" id="cCount">—</div>
         </div>
     </div>
 
@@ -939,6 +1461,12 @@
         <div class="suburl">
             <span class="tag">SUB</span>
             <span class="u mono" id="subUrlText">{{ .subUrl }}</span>
+            <button class="icp qrBtn" title="کد QR" data-link="{{ .subUrl }}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+                    <path d="M14 14h3v3h-3zM17.5 17.5h.01M14 21h3M21 14v3M21 21h.01"/>
+                </svg>
+            </button>
             <button class="icp" id="copySubBtn" title="کپی لینک اشتراک" data-link="{{ .subUrl }}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="9" y="9" width="13" height="13" rx="2"/>
@@ -952,6 +1480,12 @@
             <div class="citem" data-link="{{ $link }}" data-index="{{ $i }}">
                 <span class="proto def">#</span>
                 <span class="cname">—</span>
+                <button class="icp qrBtn" title="کد QR">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <path d="M14 14h3v3h-3zM17.5 17.5h.01M14 21h3M21 14v3M21 21h.01"/>
+                    </svg>
+                </button>
                 <button class="icp copyOne" title="کپی کانفیگ">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="9" y="9" width="13" height="13" rx="2"/>
@@ -965,12 +1499,253 @@
         </div>
     </section>
 
+    <!-- RECOMMENDED APPS -->
+    <section class="apps glass">
+        <div class="apps-top">
+            <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+                </svg>
+                <span class="fa-text" data-i18n="apps_title">برنامه‌های کلاینت</span>
+            </h2>
+            <p class="fa-text" data-i18n="apps_sub">سیستم‌عامل خودت رو انتخاب کن و یک کلاینت نصب کن</p>
+        </div>
+
+        <div class="os-select" id="osSelect">
+            <button class="os-select-btn" id="osSelectBtn" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span class="os-select-icon" id="osSelectIcon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10.4 4.5V11.4H3V5.5ZM11.3 4.4 21 3V11.3H11.3V4.4ZM3 12.4H10.4V19.4L3 18.4V12.4ZM11.3 12.4H21V20.9L11.3 19.6V12.4Z"/></svg>
+                </span>
+                <span class="os-select-label" id="osSelectLabel">Windows</span>
+                <svg class="os-select-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="os-select-menu" id="osSelectMenu" role="listbox">
+                <button class="os-option" data-os="android" role="option">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18c0 .55.45 1 1 1h1v3.5a1.5 1.5 0 0 0 3 0V19h2v3.5a1.5 1.5 0 0 0 3 0V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8A1.5 1.5 0 0 0 2 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 3.5 8zM20.5 8A1.5 1.5 0 0 0 19 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 20.5 8zM15.53 2.16l1.3-1.3a.5.5 0 0 0-.7-.71l-1.44 1.44A5.6 5.6 0 0 0 12 1a5.6 5.6 0 0 0-2.69.6L7.87.15a.5.5 0 1 0-.7.7l1.3 1.31A5.98 5.98 0 0 0 6 7h12a5.98 5.98 0 0 0-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>
+                    <span>Android</span>
+                    <svg class="os-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="os-option" data-os="ios" role="option">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                    <span>iOS</span>
+                    <svg class="os-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="os-option" data-os="macos" role="option">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                    <span>macOS</span>
+                    <svg class="os-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="os-option active" data-os="windows" role="option">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10.4 4.5V11.4H3V5.5ZM11.3 4.4 21 3V11.3H11.3V4.4ZM3 12.4H10.4V19.4L3 18.4V12.4ZM11.3 12.4H21V20.9L11.3 19.6V12.4Z"/></svg>
+                    <span>Windows</span>
+                    <svg class="os-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="os-option" data-os="linux" role="option">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5zm2 0v14h12V5H6zm2.4 2.6L11.8 12l-3.4 4.4-1.6-1.2L9.2 12 6.8 8.8l1.6-1.2zM13 15.5h4.5v2H13v-2z"/></svg>
+                    <span>Linux</span>
+                    <svg class="os-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="app-grid" id="grid-android">
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FF6B00,#FF8C00)">V2</div>
+                <div class="app-info">
+                    <div class="an">v2rayNG</div>
+                    <div class="ad fa-text" data-i18n="app_v2rayng_desc">کلاینت اندروید VMess / VLess / Trojan</div>
+                </div>
+                <a class="app-get" href="https://github.com/2dust/v2rayNG/releases/latest" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FFB020,#FF6B00)">HP</div>
+                <div class="app-info">
+                    <div class="an">Happ</div>
+                    <div class="ad fa-text" data-i18n="app_happ_desc">کلاینت چندسکویی VLESS / VMess / Trojan</div>
+                </div>
+                <a class="app-get" href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FF8C00,#FFC069)">SB</div>
+                <div class="app-info">
+                    <div class="an">Sing-box</div>
+                    <div class="ad fa-text" data-i18n="app_singbox_desc">کلاینت رسمی هسته‌ی sing-box</div>
+                </div>
+                <a class="app-get" href="https://play.google.com/store/apps/details?id=io.nekohasekai.sfa" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="app-grid" id="grid-ios">
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FF4D00,#FF8C00)">VB</div>
+                <div class="app-info">
+                    <div class="an">V2Box</div>
+                    <div class="ad fa-text" data-i18n="app_v2box_desc">کلاینت سبک Vmess / Vless / Trojan</div>
+                </div>
+                <a class="app-get" href="https://apps.apple.com/app/v2box-v2ray-client/id6446814690" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FFB020,#FF6B00)">HP</div>
+                <div class="app-info">
+                    <div class="an">Happ</div>
+                    <div class="ad fa-text" data-i18n="app_happ_desc">کلاینت چندسکویی VLESS / VMess / Trojan</div>
+                </div>
+                <a class="app-get" href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FF8C00,#FFC069)">SB</div>
+                <div class="app-info">
+                    <div class="an">Sing-box</div>
+                    <div class="ad fa-text" data-i18n="app_singbox_desc">کلاینت رسمی هسته‌ی sing-box</div>
+                </div>
+                <a class="app-get" href="https://apps.apple.com/us/app/sing-box-vt/id6673731168" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="app-grid" id="grid-macos">
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FF4D00,#FF8C00)">VB</div>
+                <div class="app-info">
+                    <div class="an">V2Box</div>
+                    <div class="ad fa-text" data-i18n="app_v2box_desc">کلاینت سبک Vmess / Vless / Trojan</div>
+                </div>
+                <a class="app-get" href="https://apps.apple.com/app/v2box-v2ray-client/id6446814690" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#E85D00,#FF8C00)">TH</div>
+                <div class="app-info">
+                    <div class="an">Throne</div>
+                    <div class="ad fa-text" data-i18n="app_throne_desc">کلاینت دسکتاپ مبتنی بر sing-box (جانشین NekoRay)</div>
+                </div>
+                <a class="app-get" href="https://github.com/throneproj/Throne/releases/latest" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FFB020,#FF6B00)">HP</div>
+                <div class="app-info">
+                    <div class="an">Happ</div>
+                    <div class="ad fa-text" data-i18n="app_happ_desc">کلاینت چندسکویی VLESS / VMess / Trojan</div>
+                </div>
+                <a class="app-get" href="https://github.com/Happ-proxy/happ-desktop/releases/latest" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FF8C00,#FFC069)">SB</div>
+                <div class="app-info">
+                    <div class="an">Sing-box</div>
+                    <div class="ad fa-text" data-i18n="app_singbox_desc">کلاینت رسمی هسته‌ی sing-box</div>
+                </div>
+                <a class="app-get" href="https://apps.apple.com/us/app/sing-box-vt/id6673731168" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="app-grid active" id="grid-windows">
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#E85D00,#FF8C00)">TH</div>
+                <div class="app-info">
+                    <div class="an">Throne</div>
+                    <div class="ad fa-text" data-i18n="app_throne_desc">کلاینت دسکتاپ مبتنی بر sing-box (جانشین NekoRay)</div>
+                </div>
+                <a class="app-get" href="https://github.com/throneproj/Throne/releases/latest" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FFB020,#FF6B00)">HP</div>
+                <div class="app-info">
+                    <div class="an">Happ</div>
+                    <div class="ad fa-text" data-i18n="app_happ_desc">کلاینت چندسکویی VLESS / VMess / Trojan</div>
+                </div>
+                <a class="app-get" href="https://github.com/Happ-proxy/happ-desktop/releases/latest" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FF8C00,#FFC069)">SB</div>
+                <div class="app-info">
+                    <div class="an">Sing-box</div>
+                    <div class="ad fa-text" data-i18n="app_singbox_desc">کلاینت رسمی هسته‌ی sing-box</div>
+                </div>
+                <a class="app-get" href="https://github.com/SagerNet/sing-box/releases/latest" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="app-grid" id="grid-linux">
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#E85D00,#FF8C00)">TH</div>
+                <div class="app-info">
+                    <div class="an">Throne</div>
+                    <div class="ad fa-text" data-i18n="app_throne_desc">کلاینت دسکتاپ مبتنی بر sing-box (جانشین NekoRay)</div>
+                </div>
+                <a class="app-get" href="https://github.com/throneproj/Throne/releases/latest" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FFB020,#FF6B00)">HP</div>
+                <div class="app-info">
+                    <div class="an">Happ</div>
+                    <div class="ad fa-text" data-i18n="app_happ_desc">کلاینت چندسکویی VLESS / VMess / Trojan</div>
+                </div>
+                <a class="app-get" href="https://github.com/Happ-proxy/happ-desktop/releases/latest" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#FF8C00,#FFC069)">SB</div>
+                <div class="app-info">
+                    <div class="an">Sing-box</div>
+                    <div class="ad fa-text" data-i18n="app_singbox_desc">کلاینت رسمی هسته‌ی sing-box</div>
+                </div>
+                <a class="app-get" href="https://github.com/SagerNet/sing-box/releases/latest" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                    <span data-i18n="get_app">دریافت</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <div class="foot">
         <span class="sid">ID: {{ .sId }}</span>
         <span>
             <a id="supportLink" target="_blank" rel="noopener">پشتیبانی</a> ·
-            <span class="made" data-i18n="made">ساخته‌شده توسط NetRon VPN ❤️<b>Netron</b></span>
+            <span class="made" data-i18n="made">ساخته‌شده توسط تیم <b>NetRon</b> ❤️</span>
         </span>
     </div>
 </div>
@@ -982,32 +1757,48 @@
         /* ---------- i18n ---------- */
         var i18n = {
             fa: {
-                brand_name: "داشبورد کاربری",
+                brand_name: "NetRon",
                 panel_label: "پنل اشتراک",
                 notice_title: "یادآوری",
                 notice_body: "برای جلوگیری از قطعی، لینک اشتراک خود را همیشه از همین صفحه در برنامه‌ی کانفیگ‌خوان به‌روز نگه دارید.",
                 remaining: "باقی‌مانده", expiry: "تاریخ انقضا", last_online: "آخرین اتصال",
                 service_vol: "حجم سرویس", used_vol: "مصرف‌شده", remain_vol: "باقی‌مانده", cfg_count: "کانفیگ‌ها",
                 configs: "کانفیگ‌ها", copy_all: "کپی همه", support: "پشتیبانی", no_configs: "هیچ کانفیگی موجود نیست",
-                made: "ساخته‌شده توسط mahdiz_o ❤️", active: "فعال", inactive: "غیرفعال",
+                made: "ساخته‌شده توسط تیم NetRon ❤️", active: "فعال", inactive: "غیرفعال",
                 unlimited: "نامحدود", never: "بدون انقضا", never_seen: "هنوز متصل نشده", expired: "منقضی شده",
                 day: "روز", days_left: "روز تا انقضا", used_suffix: "مصرف‌شده",
                 copied: "کپی شد!", copied_all: "همه‌ی کانفیگ‌ها کپی شد!", nothing: "کانفیگی برای کپی نیست",
-                cfg: "کانفیگ"
+                cfg: "کانفیگ",
+                apps_title: "برنامه‌های کلاینت", apps_sub: "سیستم‌عامل خودت رو انتخاب کن و یک کلاینت نصب کن",
+                qr_title: "اسکن برای وارد کردن", qr_hint: "برنامه‌ی کانفیگ‌خوان را باز کن و این کد را اسکن کن",
+                get_app: "دریافت",
+                app_v2rayng_desc: "کلاینت اندروید VMess / VLess / Trojan",
+                app_singbox_desc: "کلاینت رسمی هسته‌ی sing-box",
+                app_v2box_desc: "کلاینت سبک Vmess / Vless / Trojan",
+                app_happ_desc: "کلاینت چندسکویی VLESS / VMess / Trojan",
+                app_throne_desc: "کلاینت دسکتاپ مبتنی بر sing-box (جانشین NekoRay)"
             },
             en: {
-                brand_name: "User Dashboard",
+                brand_name: "NetRon",
                 panel_label: "Subscription panel",
                 notice_title: "Reminder",
                 notice_body: "To avoid disconnection, always keep your subscription link up to date in your client app from this page.",
                 remaining: "Remaining", expiry: "Expiry date", last_online: "Last connection",
                 service_vol: "Plan volume", used_vol: "Used", remain_vol: "Remaining", cfg_count: "Configs",
                 configs: "Configs", copy_all: "Copy all", support: "Support", no_configs: "No configs available",
-                made: "Made by mahdiz_o ❤️", active: "Active", inactive: "Inactive",
+                made: "Created by NetRon Team ❤️", active: "Active", inactive: "Inactive",
                 unlimited: "Unlimited", never: "Never", never_seen: "Not connected yet", expired: "Expired",
                 day: "day", days_left: "days left", used_suffix: "used",
-                copied: "Copied!", copied_all: "All configs copied!", nothing: "Nothing to copy",
-                cfg: "Config"
+                copied: "Copied to clipboard!", copied_all: "All configs copied to clipboard!", nothing: "Nothing to copy",
+                cfg: "Config",
+                apps_title: "Client Apps", apps_sub: "Pick your platform and install a client to get started",
+                qr_title: "Scan to import", qr_hint: "Open your client app and scan this code",
+                get_app: "Get it",
+                app_v2rayng_desc: "Android client for VMess / VLess / Trojan",
+                app_singbox_desc: "Official sing-box core client",
+                app_v2box_desc: "Lightweight VMess / VLess / Trojan client",
+                app_happ_desc: "Cross-platform client for VLESS / VMess / Trojan",
+                app_throne_desc: "Desktop client powered by sing-box (successor to NekoRay)"
             }
         };
         var lang = "fa";
@@ -1211,7 +2002,7 @@
         /* ---------- copy helpers ---------- */
         function toast(msg) {
             var t = document.getElementById("toast");
-            t.textContent = msg;
+            document.getElementById("toastText").textContent = msg;
             t.classList.add("show");
             clearTimeout(t._t);
             t._t = setTimeout(function () {
@@ -1250,6 +2041,77 @@
             done();
         }
 
+        /* ---------- dummy QR renderer ----------
+           Draws a deterministic, QR-styled pixel pattern seeded from the link string.
+           This is a visual placeholder, not a scannable QR code. */
+        function seededRand(seed) {
+            var s = 0;
+            for (var i = 0; i < seed.length; i++) s = (s * 31 + seed.charCodeAt(i)) >>> 0;
+            return function () {
+                s = (s * 1664525 + 1013904223) >>> 0;
+                return s / 4294967296;
+            };
+        }
+
+        function drawDummyQR(text) {
+            var canvas = document.getElementById("qrCanvas");
+            var ctx = canvas.getContext("2d");
+            var size = canvas.width;
+            var grid = 25;
+            var cell = size / grid;
+            var rnd = seededRand(text || "netron");
+
+            ctx.clearRect(0, 0, size, size);
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(0, 0, size, size);
+            ctx.fillStyle = "#0a0a1c";
+
+            var matrix = [];
+            for (var y = 0; y < grid; y++) {
+                matrix[y] = [];
+                for (var x = 0; x < grid; x++) matrix[y][x] = rnd() > 0.56;
+            }
+
+            function drawFinder(ox, oy) {
+                for (var y = -1; y <= 7; y++) {
+                    for (var x = -1; x <= 7; x++) {
+                        if (ox + x < 0 || oy + y < 0 || ox + x >= grid || oy + y >= grid) continue;
+                        matrix[oy + y][ox + x] = false;
+                    }
+                }
+                ctx.fillRect(ox * cell, oy * cell, 7 * cell, 7 * cell);
+                ctx.fillStyle = "#fff";
+                ctx.fillRect((ox + 1) * cell, (oy + 1) * cell, 5 * cell, 5 * cell);
+                ctx.fillStyle = "#0a0a1c";
+                ctx.fillRect((ox + 2) * cell, (oy + 2) * cell, 3 * cell, 3 * cell);
+            }
+
+            for (var y2 = 0; y2 < grid; y2++) {
+                for (var x2 = 0; x2 < grid; x2++) {
+                    if (matrix[y2][x2]) ctx.fillRect(x2 * cell, y2 * cell, cell * .92, cell * .92);
+                }
+            }
+
+            drawFinder(0, 0);
+            drawFinder(grid - 7, 0);
+            drawFinder(0, grid - 7);
+        }
+
+        function openQrModal(link) {
+            if (!link) {
+                toast(T("nothing"));
+                return;
+            }
+            document.getElementById("qrLinkText").textContent = link;
+            drawDummyQR(link);
+            document.getElementById("qrOverlay").classList.add("show");
+            document.getElementById("qrOverlay")._link = link;
+        }
+
+        function closeQrModal() {
+            document.getElementById("qrOverlay").classList.remove("show");
+        }
+
         /* ===== بارگذاری config.json ===== */
         async function loadConfig() {
             try {
@@ -1282,6 +2144,93 @@
             var item = btn.closest(".citem");
             copy(item && item.getAttribute("data-link"));
         });
+
+        /* ---------- QR modal events ---------- */
+        document.addEventListener("click", function (e) {
+            var qbtn = e.target.closest(".qrBtn");
+            if (!qbtn) return;
+            var link = qbtn.getAttribute("data-link");
+            if (!link) {
+                var item = qbtn.closest(".citem");
+                link = item && item.getAttribute("data-link");
+            }
+            openQrModal(link);
+        });
+        document.getElementById("qrClose").addEventListener("click", closeQrModal);
+        document.getElementById("qrOverlay").addEventListener("click", function (e) {
+            if (e.target === this) closeQrModal();
+        });
+        document.getElementById("qrCopyBtn").addEventListener("click", function () {
+            copy(document.getElementById("qrOverlay")._link);
+        });
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") closeQrModal();
+        });
+
+        /* ---------- OS selector (Recommended Apps) ---------- */
+        var osIcons = {
+            android: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18c0 .55.45 1 1 1h1v3.5a1.5 1.5 0 0 0 3 0V19h2v3.5a1.5 1.5 0 0 0 3 0V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8A1.5 1.5 0 0 0 2 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 3.5 8zM20.5 8A1.5 1.5 0 0 0 19 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 20.5 8zM15.53 2.16l1.3-1.3a.5.5 0 0 0-.7-.71l-1.44 1.44A5.6 5.6 0 0 0 12 1a5.6 5.6 0 0 0-2.69.6L7.87.15a.5.5 0 1 0-.7.7l1.3 1.31A5.98 5.98 0 0 0 6 7h12a5.98 5.98 0 0 0-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>',
+            ios: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>',
+            macos: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>',
+            windows: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 10.4 4.5V11.4H3V5.5ZM11.3 4.4 21 3V11.3H11.3V4.4ZM3 12.4H10.4V19.4L3 18.4V12.4ZM11.3 12.4H21V20.9L11.3 19.6V12.4Z"/></svg>',
+            linux: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5zm2 0v14h12V5H6zm2.4 2.6L11.8 12l-3.4 4.4-1.6-1.2L9.2 12 6.8 8.8l1.6-1.2zM13 15.5h4.5v2H13v-2z"/></svg>'
+        };
+        var osLabels = { android: "Android", ios: "iOS", macos: "macOS", windows: "Windows", linux: "Linux" };
+
+        /* Auto-detect the visitor's OS from the user agent string so the
+           relevant client list is pre-selected without them hunting for it. */
+        function detectOS() {
+            var ua = (navigator.userAgent || navigator.vendor || "").toLowerCase();
+            var isTouchMac = /macintosh/.test(ua) && "ontouchend" in document;
+            if (/iphone|ipad|ipod/.test(ua) || isTouchMac) return "ios";
+            if (/android/.test(ua)) return "android";
+            if (/mac os x|macintosh/.test(ua)) return "macos";
+            if (/linux/.test(ua) && !/android/.test(ua)) return "linux";
+            if (/windows|win32|win64|wow64/.test(ua)) return "windows";
+            return null;
+        }
+
+        function selectOS(os) {
+            if (!osLabels[os]) return;
+            document.querySelectorAll(".os-option").forEach(function (o) {
+                o.classList.toggle("active", o.getAttribute("data-os") === os);
+            });
+            document.querySelectorAll(".app-grid").forEach(function (g) {
+                g.classList.toggle("active", g.id === "grid-" + os);
+            });
+            document.getElementById("osSelectIcon").innerHTML = osIcons[os];
+            document.getElementById("osSelectLabel").textContent = osLabels[os];
+        }
+
+        var osSelect = document.getElementById("osSelect");
+        var osSelectBtn = document.getElementById("osSelectBtn");
+        osSelectBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var open = osSelect.classList.toggle("open");
+            osSelectBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        document.getElementById("osSelectMenu").addEventListener("click", function (e) {
+            var opt = e.target.closest(".os-option");
+            if (!opt) return;
+            selectOS(opt.getAttribute("data-os"));
+            osSelect.classList.remove("open");
+            osSelectBtn.setAttribute("aria-expanded", "false");
+        });
+        document.addEventListener("click", function (e) {
+            if (!osSelect.contains(e.target)) {
+                osSelect.classList.remove("open");
+                osSelectBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+                osSelect.classList.remove("open");
+                osSelectBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        // Pre-select the detected OS; fall back to Windows when detection is inconclusive.
+        selectOS(detectOS() || "windows");
         document.getElementById("copyAllBtn").addEventListener("click", function () {
             var links = [];
             document.querySelectorAll(".citem[data-link]").forEach(function (it) {
@@ -1307,6 +2256,7 @@
             lang = (lang === "fa") ? "en" : "fa";
             document.documentElement.lang = lang;
             document.documentElement.dir = (lang === "fa") ? "rtl" : "ltr";
+            document.body.classList.toggle("en-mode", lang === "en");
             this.textContent = (lang === "fa") ? "FA" : "EN";
             render();
         });
@@ -1334,21 +2284,21 @@
             const isLight = document.body.classList.contains('light');
             const g = ctx.createRadialGradient(W*.3, H*.2, 0, W*.5, H*.4, Math.max(W,H)*.8);
             if (isLight) {
-                g.addColorStop(0,'#f5f3ff'); g.addColorStop(.4,'#ede9fe'); g.addColorStop(.8,'#f0f4ff'); g.addColorStop(1,'#f8f7ff');
+                g.addColorStop(0,'#fff8f0'); g.addColorStop(.4,'#ffece0'); g.addColorStop(.8,'#fff3e8'); g.addColorStop(1,'#fffaf5');
             } else {
-                g.addColorStop(0,'#1a1040'); g.addColorStop(.3,'#141430'); g.addColorStop(.6,'#0e0e24'); g.addColorStop(1,'#080818');
+                g.addColorStop(0,'#1a1108'); g.addColorStop(.3,'#151210'); g.addColorStop(.6,'#0f0f11'); g.addColorStop(1,'#0a0a0b');
             }
             ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
 
             const orbs = isLight ? [
-                {x:W*.15,y:H*.1, r:Math.min(W,H)*.35,color:'rgba(139,92,246,0.05)'},
-                {x:W*.85,y:H*.8, r:Math.min(W,H)*.28,color:'rgba(99,102,241,0.04)'},
-                {x:W*.5, y:H*.5, r:Math.min(W,H)*.2, color:'rgba(168,85,247,0.03)'},
+                {x:W*.15,y:H*.1, r:Math.min(W,H)*.35,color:'rgba(255,107,0,0.06)'},
+                {x:W*.85,y:H*.8, r:Math.min(W,H)*.28,color:'rgba(255,140,0,0.05)'},
+                {x:W*.5, y:H*.5, r:Math.min(W,H)*.2, color:'rgba(255,176,32,0.04)'},
             ] : [
-                {x:W*.08,y:H*.12,r:Math.min(W,H)*.3, color:'rgba(139,92,246,0.12)'},
-                {x:W*.92,y:H*.85,r:Math.min(W,H)*.25,color:'rgba(99,102,241,0.10)'},
-                {x:W*.5, y:H*.95,r:Math.min(W,H)*.18,color:'rgba(168,85,247,0.08)'},
-                {x:W*.7, y:H*.08,r:Math.min(W,H)*.12,color:'rgba(79,70,229,0.06)'},
+                {x:W*.08,y:H*.12,r:Math.min(W,H)*.3, color:'rgba(255,107,0,0.12)'},
+                {x:W*.92,y:H*.85,r:Math.min(W,H)*.25,color:'rgba(255,140,0,0.10)'},
+                {x:W*.5, y:H*.95,r:Math.min(W,H)*.18,color:'rgba(255,176,32,0.07)'},
+                {x:W*.7, y:H*.08,r:Math.min(W,H)*.12,color:'rgba(255,77,0,0.06)'},
             ];
             for (let o of orbs) {
                 const og = ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
@@ -1357,7 +2307,7 @@
             }
 
             ctx.save();
-            const pc = isLight?40:60, baseOp = isLight?.05:.08, col = isLight?'139,92,246':'255,255,255';
+            const pc = isLight?40:60, baseOp = isLight?.05:.08, col = isLight?'255,140,0':'255,255,255';
             for (let i=0;i<pc;i++) {
                 const s=i*137.508;
                 const x=(Math.sin(s+time*.0003+i)*.5+.5)*W, y=(Math.cos(s*1.3+time*.0004+i*.7)*.5+.5)*H;
@@ -1369,8 +2319,8 @@
 
             if (mouseX>0&&mouseY>0) {
                 const glow=ctx.createRadialGradient(mouseX,mouseY,0,mouseX,mouseY,200);
-                const c=isLight?'rgba(139,92,246,':'rgba(255,255,255,';
-                glow.addColorStop(0,c+'0.04)'); glow.addColorStop(1,c+'0)');
+                const c='rgba(255,140,0,';
+                glow.addColorStop(0,c+'0.06)'); glow.addColorStop(1,c+'0)');
                 ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(mouseX,mouseY,200,0,Math.PI*2); ctx.fill();
             }
         }

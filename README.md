@@ -23,6 +23,7 @@ A modern, responsive, and customizable subscription page template for **3x-ui** 
 3x-ui-Subscription-Template/
 ├── sub.html           (Main template file - must be named sub.html)
 ├── config.json        (Configuration file)
+├── install.sh         (One-line installer)
 ├── README.md          (English documentation)
 └── README_FA.md       (Persian documentation)
 ```
@@ -41,54 +42,65 @@ Displays subscription information, traffic usage, expiration date, and service s
 
 ## 🛠️ Installation
 
-### 1. Clone Repository
+### 1. Run the Installer
+
+Run this single command on your server (as root):
 
 ```bash
-cd /root
-git clone https://github.com/mahdizo3181/3x-ui-Subscription-Template.git
+bash <(curl -Ls https://raw.githubusercontent.com/mahdizo3181/3x-ui-Subscription-Template/main/install.sh)
 ```
 
-### 2. Get Absolute Path
-
-```bash
-cd 3x-ui-Subscription-Template
-pwd
-```
-
-Example output:
+The script downloads the template, asks for your Telegram support ID (optional),
+and prints the folder path you need for the panel:
 
 ```text
-/root/3x-ui-Subscription-Template
+  Installation complete.
+
+  Put this path in your 3x-ui panel:
+
+      /opt/3x-ui-sub-template
 ```
 
-Copy this path.
+Run the same command again anytime to update the template — your `config.json` is kept.
+
+To install somewhere else:
+
+```bash
+INSTALL_DIR=/root/my-template bash <(curl -Ls https://raw.githubusercontent.com/mahdizo3181/3x-ui-Subscription-Template/main/install.sh)
+```
 
 ---
 
-### 3. Configure Template Path in 3x-ui
+### 2. Configure Template Path in 3x-ui
 
 1. Open the 3x-ui panel.
-2. Go to **Settings**.
-3. Open the **Subscription** .
+2. Go to **Panel Settings**.
+3. Open the **Subscription** tab.
 4. Click **Profile**.
-5. Enter the absolute folder path in **Sub Theme Directory**.
-
-Example:
+5. Paste the path printed by the installer into **Sub Theme Directory**:
 
 ```text
-/root/3x-ui-Subscription-Template
+/opt/3x-ui-sub-template
 ```
 
 6. Save changes.
-7. Restart the panel once.
+7. Restart the panel once:
+
+```bash
+x-ui restart
+```
 
 > The template file must be named `sub.html`.
 
 ---
 
-### 4. Configure Support ID (Optional)
+### 3. Change Support ID Later (Optional)
 
-Edit `config.json`:
+Edit `config.json` inside the install folder:
+
+```bash
+nano /opt/3x-ui-sub-template/config.json
+```
 
 ```json
 {
@@ -96,19 +108,11 @@ Edit `config.json`:
 }
 ```
 
-Example:
-
-```json
-{
-  "support_id": "@NetRon_Support"
-}
-```
-
-Leave it empty if you do not want to display a support link.
+Leave it empty if you do not want to display a support link. No panel restart needed.
 
 ---
 
-### 5. Final Test
+### 4. Final Test
 
 Create a user with an active subscription and open the subscription URL. The new template should be displayed automatically.
 
@@ -120,6 +124,7 @@ Create a user with an active subscription and open the subscription URL. The new
 * Use an absolute path, not a relative path.
 * Make sure `sub.html` exists in the configured folder.
 * Changes in `config.json` do not require a panel restart.
+* Manual install still works: clone the repo and use its folder path instead.
 
 ---
 
