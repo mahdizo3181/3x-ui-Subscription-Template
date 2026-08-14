@@ -1786,7 +1786,7 @@
            per platform, kept in one place so adding/editing an app is a single edit. */
         var APPS = {
             android: [
-                {name: "v2rayNG", badge: "V2", grad: "linear-gradient(135deg,#FF6B00,#FF8C00)", desc: "app_v2rayng_desc", href: "https://github.com/2dust/v2rayNG/releases/latest"},
+                {name: "v2rayNG", badge: "V2", grad: "linear-gradient(135deg,#FF6B00,#FF8C00)", desc: "app_v2rayng_desc", href: "https://play.google.com/store/apps/details?id=com.v2ray.ang"},
                 {name: "Happ", badge: "HP", grad: "linear-gradient(135deg,#FFB020,#FF6B00)", desc: "app_happ_desc", href: "https://play.google.com/store/apps/details?id=com.happproxy"},
                 {name: "Sing-box", badge: "SB", grad: "linear-gradient(135deg,#FF8C00,#FFC069)", desc: "app_singbox_desc", href: "https://play.google.com/store/apps/details?id=io.nekohasekai.sfa"}
             ],
@@ -1830,7 +1830,7 @@
                             '<div class="an">' + esc(app.name) + '</div>' +
                             '<div class="ad fa-text" data-i18n="' + app.desc + '">' + esc(T(app.desc)) + '</div>' +
                         '</div>' +
-                        '<a class="app-get" href="' + esc(app.href) + '" target="_blank" rel="noopener" data-app-name="' + esc(app.name) + '" aria-label="' + esc(T("get_app") + " " + app.name) + '">' +
+                        '<a class="app-get" href="' + esc(app.href) + '" target="_blank" rel="noopener noreferrer" data-app-name="' + esc(app.name) + '" aria-label="' + esc(T("get_app") + " " + app.name) + '">' +
                             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#ic-arrow-down"/></svg>' +
                             '<span data-i18n="get_app">' + esc(T("get_app")) + '</span>' +
                         '</a>' +
